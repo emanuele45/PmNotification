@@ -13,9 +13,14 @@ class Pmnotification_Db
 	protected $db = null;
 	protected $user_id = null;
 
-	public function __construct($db, $user)
+	public function __construct($db, $user = null)
 	{
 		$this->db = $db;
+		$this->user_id = $user;
+	}
+
+	public function setUser($user)
+	{
 		$this->user_id = $user;
 	}
 
@@ -36,7 +41,7 @@ class Pmnotification_Db
 			LIMIT {int:limit}',
 			array(
 				'this_member' => $this->user_id,
-				'is_read' => 1,
+				'is_read' => 0,
 				'limit' => $amount,
 			)
 		);
@@ -55,5 +60,70 @@ class Pmnotification_Db
 		$this->db->free_result($request);
 
 		return $pms;
+	}
+
+	public function getSubject($id_pm)
+	{
+		$request = $this->db->query('', '
+			SELECT subject
+			FROM {db_prefix}personal_messages
+			WHERE id_pm = {int:current_pm}',
+			array(
+				'current_pm' => $id_pm,
+			)
+		);
+		list ($subject) = $this->db->fetch_row($request);
+		$this->db->free_result($request);
+
+		return $subject;
+	}
+
+	public function getRecipients($id_pm)
+	{
+		$recipients = array();
+		$request = $this->db->query('', '
+			SELECT id_member_from
+			FROM {db_prefix}personal_messages
+			WHERE id_pm = {int:current_pm}',
+			array(
+				'current_pm' => $id_pm,
+				'no_bcc' => 0,
+			)
+		);
+		while ($row = $this->db->fetch_assoc($request))
+			$recipients[] = $row['id_member_from'];
+		$this->db->free_result($request);
+
+		$request = $this->db->query('', '
+			SELECT id_member
+			FROM {db_prefix}pm_recipients
+			WHERE id_pm = {int:current_pm}
+				AND bcc = {int:no_bcc}',
+			array(
+				'current_pm' => $id_pm,
+				'no_bcc' => 0,
+			)
+		);
+		while ($row = $this->db->fetch_assoc($request))
+			$recipients[] = $row['id_member'];
+		$this->db->free_result($request);
+
+		return $recipients;
+	}
+
+	public function getHead($id_pm)
+	{
+		$request = $this->db->query('', '
+			SELECT id_pm_head
+			FROM {db_prefix}personal_messages
+			WHERE id_pm = {int:current_pm}',
+			array(
+				'current_pm' => $id_pm,
+			)
+		);
+		list ($pm_head) = $this->db->fetch_row($request);
+		$this->db->free_result($request);
+
+		return $pm_head;
 	}
 }

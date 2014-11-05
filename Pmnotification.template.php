@@ -42,13 +42,21 @@ function template_pmnotifications_below()
 					</div>
 				</li>
 				<li class="ng-hide_no preplybox" ng-show="notifwin.isReplyVisible()">
-					<textarea></textarea>
+					<textarea ng-model="$parent.replyMessage"></textarea>
 						<span class="pbuttons" ng-show="notifwin.isReplyVisible()">
 							<i class="fa fa-history fa-lg" ng-click="notifwin.restoreMsgs()"></i>
 							<i class="fa fa-send-o fa-lg" ng-click="notifwin.sendPm()"></i>
 						</span>
 				</li>
 			</ul>
+			<div ng-show="notifwin.hasErrors()||notifwin.isSuccessful()" class="ng-hide pmnotifications_results">
+				<ul ng-show="notifwin.hasErrors()" id="pmnotifications_errors">
+					<li ng-animate="\'animate\'" ng-repeat="error in notifwin.replyResult.errors">
+						{{error}}
+					</li>
+				</ul>
+				<div ng-show="notifwin.isSuccessful()">{{notifwin.replyResult.success}}</div>
+			</div>
 		</div>
 	</div>';
 }

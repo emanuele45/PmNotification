@@ -19,6 +19,7 @@
 		notifwin.showReply = false;
 		notifwin.numpms = 0;
 		notifwin.numpms = 0;
+		notifwin.replyResult = {};
 		var element = $(document.getElementById('pmnotifications_controller'));
 		var clicked = false;
 
@@ -61,7 +62,7 @@
 			notifwin.numpms = 1;
 
 			notifwin.showReply = true;
-		}
+		};
 
 		/**
 		 * Once replied or cancelled a reply, restores the messages
@@ -72,13 +73,42 @@
 			notifwin.numpms = notifwin.msgs.length;
 
 			notifwin.showReply = false;
-		}
+		};
 
 		/**
 		 * This does the AJAX call to send a PM
 		 */
 		this.sendPm = function() {
-			
+			var pdata = {
+					id_pm: notifwin.msgs[0].id_pm,
+					message: $scope.replyMessage,
+				};
+			pdata[elk_session_var] = elk_session_id;
+
+			$http({
+					method: 'POST',
+					url: elk_scripturl + "?action=pmnotification;sa=send;xml;api=json",
+					data: $.param(pdata),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+			.success(function(data) {
+// 				alert(data.errors.length);
+				notifwin.replyResult = data;
+			})
+			.error(function(data, status, headers, config) {
+				alert(123);
+				notifwin.replyResult = {};
+			});
+		};
+
+		this.hasErrors = function() {
+			if (typeof notifwin.replyResult.errors == 'undefined')
+				return false;
+			else
+				return  notifwin.replyResult.errors.length > 0;
+		};
+		this.isSuccessful = function() {
+			return typeof notifwin.replyResult.success !== 'undefined';
 		};
 
 		/**
@@ -92,7 +122,7 @@
 						return notifwin.msgs[key];
 				}
 			}
-		}
+		};
 
 		/**
 		 * Returns if the overlay should be visible or not
@@ -120,6 +150,6 @@
 		 */
 		this.unsafeString = function(string) {
 			return $sce.trustAsHtml(string);
-		}
+		};
 	}]);
 })();

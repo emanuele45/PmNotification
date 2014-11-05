@@ -9,3 +9,4 @@
  */
 
 $txt['pmnotif_new_msgs'] = 'You have some unread PMs';
+$txt['pmnot_wrong_pm'] = 'Wrong PM id';
