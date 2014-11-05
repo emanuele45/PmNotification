@@ -1,0 +1,125 @@
+/**
+ * PM Notifications
+ *
+ * @author  emanuele
+ * @license BSD http://opensource.org/licenses/BSD-3-Clause
+ *
+ * @version 0.0.1
+ */
+
+.pmnotifications_close {
+	z-index: 101;
+	color: grey;
+	float: left;
+	padding-left: 5px;
+	cursor: pointer;
+	padding-top: 5px;
+}
+.pmnotifications_close:hover {
+	color: red;
+}
+
+.pmnotifications_container,
+.pmnotifications_title {
+	position: fixed;
+	width: 40%;
+	min-width: 350px;
+	right: 0;
+	z-index: 100;
+}
+.pmnotifications_title {
+	top: 1%;
+	height: 43px;
+	text-align: center;
+	line-height: 2.5em;
+	box-shadow: -5px -5px 5px #444, -5px 5px 5px #444;
+	background-color: #fff;
+}
+.pmnotifications_title span {
+	font-size: 1.286em;
+}
+.pmnotifications_container ul {
+	max-height: 100%;
+	height: 100%;
+	overflow: auto;
+	margin-top: 0;
+	background-color: #fff;
+}
+.pmnotifications_container {
+	bottom: 1%;
+	top: 45px;
+	background-color: #FFF;
+	box-shadow: -5px 5px 5px #444;
+	overflow: hidden;
+}
+.pmnotifications_container .name {
+	display: inline-block;
+}
+.pmnotifications_container .messagebox {
+	padding: 0.5em;
+}
+.pmnotifications_container .modifier {
+	display: inline;
+	margin-right: 0.5em;
+	max-width: 50px;
+}
+.pmnotifications_container .pavatar {
+	display: inline-block;
+	max-width: 40px;
+	min-width: 40px;
+}
+.pmnotifications_container .modifier:after,
+.pmnotifications_container .message:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+/*---------------
+ * buttons
+ * --------------*/
+.pbuttons {
+	font-size: 1.143em;
+	display: block;
+	text-align: right;
+}
+.pbuttons i {
+	margin-right: 0.5em;
+}
+.pbuttons .fa-remove:hover {
+	color: red;
+	cursor: pointer;
+}
+.pbuttons .fa-history:hover,
+.pbuttons .fa-send-o:hover,
+.pbuttons .fa-reply-all:hover {
+	color: green;
+	cursor: pointer;
+}
+.pbuttons .fa-remove,
+.pbuttons .fa-history,
+.pbuttons .fa-reply-all {
+	color: grey;
+}
+
+/*---------------
+ * reply box
+ * --------------*/
+.pmnotifications_container .num_msg_1 {
+	display: flex;
+	flex-direction: column;
+}
+.pmnotifications_container .num_msg_1 li {
+	max-height: 33%;
+	overflow: auto;
+	flex: 1;
+}
+.preplybox textarea {
+	width: 100%;
+	height: 100%;
+	height: calc(100% - 35px);
+}
+#pmnotifications .preplybox {
+	height: 66%;
+	max-height: 66%;
+}

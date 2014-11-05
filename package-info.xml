@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.elkarte.net/site/package-info">
+<package-info xmlns="http://www.elkarte.net/site/package-info" xmlns:elk="http://www.elkarte.net/">
+	<license><![CDATA[
+/**
+ * PM Notifications
+ *
+ * @author  emanuele
+ * @license BSD http://opensource.org/licenses/BSD-3-Clause
+ *
+ * @version 0.0.1
+ */
+	]]></license>
+	<id>emanuele:PMNotifications</id>
+	<name>PM Notifications</name>
+	<version>0.0.1</version>
+	<type>modification</type>
+	<install for="1.0.1 - 1.0.99">
+		<require-file name="Pmnotifications.class.php" destination="SUBSDIR" />
+		<require-file name="PmnotificationsDb.class.php" destination="SUBSDIR" />
+		<require-file name="Pmnotifications.integrate.php" destination="SOURCEDIR" />
+		<require-file name="Pmnotifications.controller.php" destination="CONTROLLERDIR" />
+		<require-file name="Pmnotifications.template.php" destination="THEMEDIR" />
+		<require-file name="Pmnotifications.english.php" destination="LANGUAGEDIR/english" />
+		<require-file name="PmNotifications.css" destination="THEMEDIR/css" />
+		<require-file name="PmNotifications.js" destination="THEMEDIR/script" />
+		<database>install.php</database>
+	</install>
+	<uninstall for="1.0.1 - 1.0.99">
+		<require-file name="SUBSDIR/Pmnotifications.class.php" />
+		<require-file name="SUBSDIR/PmnotificationsDb.class.php" />
+		<require-file name="SOURCEDIR/Pmnotifications.integrate.php" />
+		<require-file name="CONTROLLERDIR/Pmnotifications.controller.php" />
+		<require-file name="THEMEDIR/Pmnotifications.template.php" />
+		<require-file name="LANGUAGEDIR/english/Pmnotifications.english.php" />
+		<require-file name="THEMEDIR/css/PmNotifications.css" />
+		<require-file name="THEMEDIR/script/PmNotifications.js" />
+		<code>install.php</code>
+	</uninstall>
+</package-info>
