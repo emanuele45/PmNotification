@@ -29,11 +29,12 @@ function template_pmnotifications_below()
 		<div class="ng-hide pmnotifications_container" ng-show="notifwin.isVisible()">
 			<ul id="pmnotifications" class="num_msg_{{notifwin.numpms}} forumposts">
 				<li ng-animate="\'animate\'" id="msg_{{message.id_pm}}" class="windowbg messagebox" ng-repeat="message in notifwin.msgs">
-					<span class="modifier">
+					<div class="modifier">
 						<img class="pavatar" ng-src="{{message.avatar.href}}" />
 						<span class="name">{{message.from_name}}</span>
-					</span>
+					</div>
 					<div class="pmessage">
+						<span class="subject">{{message.subject}}</span>
 						<div ng-bind-html="notifwin.unsafeString(message.body)"></div>
 						<span class="pbuttons" ng-show="!notifwin.isReplyVisible()">
 							<i ng-click="notifwin.replyTo(message.id_pm)" class="click fa fa-reply-all fa-lg" ng-show="!notifwin.isReplyVisible()"></i>

@@ -183,6 +183,7 @@
 		 * Takes care of hiding the overlay setting this.show to false
 		 */
 		this.hide = function() {
+			notifwin.cleanReply();
 			notifwin.show = false;
 		};
 
