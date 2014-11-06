@@ -18,11 +18,15 @@
 		notifwin.show = false;
 		notifwin.showReply = false;
 		notifwin.numpms = 0;
-		notifwin.numpms = 0;
 		notifwin.replyResult = {};
+		notifwin.replyMessage = '';
 		var element = $(document.getElementById('pmnotifications_controller'));
 		var clicked = false;
 
+		/**
+		 * This makes possible to click on any place of the page outside the
+		 * controller and close the messages container
+		 */
 		$document.bind('click', function(event) {
 			var isClickedElementChildOfPopup = element.find(event.target).length > 0;
 
@@ -39,17 +43,33 @@
 
 		/**
 		 * Function that fetches the PMs
-		 * @todo extract the fetching itself, so that it can be reused for pagination
 		 */
 		this.loadMessages = function() {
 			notifwin.show = false;
+			notifwin.fetchMessages();
+		};
 
+		/**
+		 * Fetches the unread PMs from the server
+		 */
+		this.fetchMessages = function () {
 			$http.get(elk_scripturl + "?action=pmnotification;sa=get;xml;api=json")
 				.success(function(data) {
 					notifwin.msgs = data;
 					notifwin.show = true;
 					notifwin.numpms = data.length;
 				});
+		};
+
+		/**
+		 * Cleans up the reply box
+		 */
+		this.cleanReply = function () {
+			notifwin.replmsgs = {};
+			notifwin.numpms = notifwin.msgs.length;
+			notifwin.replyMessage = '';
+
+			notifwin.showReply = false;
 		};
 
 		/**
@@ -69,10 +89,7 @@
 		 */
 		this.restoreMsgs = function() {
 			notifwin.msgs = notifwin.replmsgs;
-			notifwin.replmsgs = {};
-			notifwin.numpms = notifwin.msgs.length;
-
-			notifwin.showReply = false;
+			notifwin.cleanReply();
 		};
 
 		/**
@@ -81,7 +98,7 @@
 		this.sendPm = function() {
 			var pdata = {
 					id_pm: notifwin.msgs[0].id_pm,
-					message: $scope.replyMessage,
+					message: notifwin.replyMessage,
 				};
 			pdata[elk_session_var] = elk_session_id;
 
@@ -92,23 +109,47 @@
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			})
 			.success(function(data) {
-// 				alert(data.errors.length);
 				notifwin.replyResult = data;
+				if (typeof notifwin.replyResult.errors === 'undefined')
+				{
+					notifwin.fetchMessages();
+					notifwin.cleanReply();
+					setTimeout(function(){notifwin.hideResult();$scope.$apply();}, 3000);
+				}
+				else
+				{
+					// We do not hide the errors in that case, but it may be worth
+					// redirect some of the errors to a full post page
+				}
 			})
 			.error(function(data, status, headers, config) {
-				alert(123);
 				notifwin.replyResult = {};
+				// Redirect to the full page?
 			});
 		};
 
+		/**
+		 * Returns if the reply has errors associated or not
+		 */
 		this.hasErrors = function() {
 			if (typeof notifwin.replyResult.errors == 'undefined')
 				return false;
 			else
 				return  notifwin.replyResult.errors.length > 0;
 		};
+
+		/**
+		 * Did we succeed in sending our PM?
+		 */
 		this.isSuccessful = function() {
 			return typeof notifwin.replyResult.success !== 'undefined';
+		};
+
+		/**
+		 * Hides the result of the send, either if a success or a failure
+		 */
+		this.hideResult = function() {
+			notifwin.replyResult = {};
 		};
 
 		/**

@@ -90,9 +90,7 @@
 	color: red;
 	cursor: pointer;
 }
-.pbuttons .fa-history:hover,
-.pbuttons .fa-send-o:hover,
-.pbuttons .fa-reply-all:hover {
+#pmnotifications_controller .click:hover {
 	color: green;
 	cursor: pointer;
 }
@@ -115,11 +113,30 @@
 	flex: 1;
 }
 .preplybox textarea {
-	width: 100%;
-	height: 100%;
-	height: calc(100% - 35px);
+	width: 96%;
+	height: calc(100% - 35px - 1em);
+	margin: 0.5em 2%;
+	box-shadow: inset 0px 0px 10px #ccc;
+	padding: 0.25em;
 }
 #pmnotifications .preplybox {
 	height: 66%;
 	max-height: 66%;
+}
+/*---------------
+ * Success of error
+ * --------------*/
+.pmnotifications_results {
+	background-color: #fff;
+	bottom: 0;
+	font-size: 1.714em;
+	min-height: 3em;
+	padding: 0.5em;
+	position: absolute;
+}
+.pmnotifications_results i {
+	float: right;
+}
+.pmnotifications_results ul {
+	overflow: visible;
 }

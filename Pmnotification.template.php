@@ -36,26 +36,29 @@ function template_pmnotifications_below()
 					<div class="pmessage">
 						<div ng-bind-html="notifwin.unsafeString(message.body)"></div>
 						<span class="pbuttons" ng-show="!notifwin.isReplyVisible()">
-							<i ng-click="notifwin.replyTo(message.id_pm)" class="fa fa-reply-all fa-lg" ng-show="!notifwin.isReplyVisible()"></i>
+							<i ng-click="notifwin.replyTo(message.id_pm)" class="click fa fa-reply-all fa-lg" ng-show="!notifwin.isReplyVisible()"></i>
 							<i class="fa fa-remove fa-lg"></i>
 						</span>
 					</div>
 				</li>
 				<li class="ng-hide_no preplybox" ng-show="notifwin.isReplyVisible()">
-					<textarea ng-model="$parent.replyMessage"></textarea>
+					<textarea my-directive ngRequired ng-model="notifwin.replyMessage"></textarea>
 						<span class="pbuttons" ng-show="notifwin.isReplyVisible()">
-							<i class="fa fa-history fa-lg" ng-click="notifwin.restoreMsgs()"></i>
-							<i class="fa fa-send-o fa-lg" ng-click="notifwin.sendPm()"></i>
+							<i class="click fa fa-history fa-lg" ng-click="notifwin.restoreMsgs()"></i>
+							<i class="click fa fa-send-o fa-lg" ng-click="notifwin.sendPm()"></i>
 						</span>
 				</li>
 			</ul>
 			<div ng-show="notifwin.hasErrors()||notifwin.isSuccessful()" class="ng-hide pmnotifications_results">
-				<ul ng-show="notifwin.hasErrors()" id="pmnotifications_errors">
+				<i class="click fa fa-check-circle-o fa-lg" ng-click="notifwin.hideResult()"></i>
+				<ul class="error" ng-show="notifwin.hasErrors()" id="pmnotifications_errors">
 					<li ng-animate="\'animate\'" ng-repeat="error in notifwin.replyResult.errors">
 						{{error}}
 					</li>
 				</ul>
-				<div ng-show="notifwin.isSuccessful()">{{notifwin.replyResult.success}}</div>
+				<ul class="success" ng-show="notifwin.isSuccessful()">
+					<li>{{notifwin.replyResult.success}}</li>
+				</ul>
 			</div>
 		</div>
 	</div>';
